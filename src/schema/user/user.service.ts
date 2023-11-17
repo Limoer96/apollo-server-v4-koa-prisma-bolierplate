@@ -1,5 +1,6 @@
-import type { PrismaClient } from '@prisma/client'
 import { GraphQLError } from 'graphql'
+
+import type { PrismaClient } from 'prisma/prisma'
 
 import { generateToken } from '@/utils/token'
 

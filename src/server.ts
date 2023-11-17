@@ -36,10 +36,18 @@ const start = async () => {
   await server.start()
   const graphqlMiddleware = koaMiddleware(server, { context: createContext })
   router.all('/graphql', graphqlMiddleware)
+  const env = process.env.NODE_ENV
   app
     .use(cors())
     .use(bodyParser())
-    .use(serve(path.resolve(__dirname, './static')))
+    .use(
+      serve(
+        path.resolve(
+          __dirname,
+          env === 'development' ? './static' : '../../src/static',
+        ),
+      ),
+    )
     .use(router.routes())
     .use(router.allowedMethods())
   await new Promise(resolve => {
