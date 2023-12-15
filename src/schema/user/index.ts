@@ -1,71 +1,80 @@
-import {
-  inputObjectType,
-  intArg,
-  mutationType,
-  nonNull,
-  objectType,
-  queryType,
-  stringArg,
-} from 'nexus'
+import { GraphQLError } from 'graphql'
 
-import { authMiddleWare } from '@/middleware/auth'
+import prisma from 'prisma/prisma'
 
-import {
-  allUsersResolver,
-  loginResolver,
-  registResolver,
-  userInfoResolver,
-} from './user.resolvers'
+import { generateToken } from '@/utils/token'
 
-export const UserUniqueInput = inputObjectType({
-  name: 'UserUniqueInput',
-  definition(t) {
-    t.string('name')
-    t.nonNull.string('email')
-  },
+import { builder } from '../../builder'
+
+const UserUniqueInput = builder.inputType('UserUniqueInput', {
+  fields: t => ({
+    name: t.string(),
+    email: t.string({ required: true }),
+  }),
 })
 
-export const User = objectType({
-  name: 'User',
-  definition(t) {
-    t.nonNull.int('id')
-    t.string('name')
-    t.nonNull.string('email')
-  },
+const User = builder.prismaObject('User', {
+  fields: t => ({
+    id: t.exposeInt('id', { nullable: false }),
+    name: t.exposeString('name', { nullable: true }),
+    email: t.exposeString('email', { nullable: false }),
+  }),
 })
 
-export const UserQuery = queryType({
-  definition(t) {
-    t.nonNull.list.nonNull.field('allUsers', {
-      type: 'User',
-      resolve: authMiddleWare(allUsersResolver),
-    })
-    t.field('user', {
+builder.queryType({
+  fields: t => ({
+    allUsers: t.prismaField({
+      type: [User],
+      nullable: true,
+      resolve: (query, root, args) => prisma.user.findMany(),
+    }),
+    user: t.prismaField({
+      type: User,
+      nullable: true,
+      args: {
+        id: t.arg.int({ required: true }),
+      },
+      resolve: async (_, __, args) =>
+        prisma.user.findUnique({
+          where: {
+            id: args.id,
+          },
+        }),
+    }),
+  }),
+})
+
+builder.mutationType({
+  fields: t => ({
+    regist: t.prismaField({
       type: 'User',
       args: {
-        id: nonNull(intArg()),
+        input: t.arg({ type: UserUniqueInput, required: true }),
       },
-      resolve: authMiddleWare(userInfoResolver),
-    })
-  },
-})
-
-export const UserMutation = mutationType({
-  definition(t) {
-    t.field('regist', {
-      type: 'Int',
+      resolve: async (_, __, args) =>
+        prisma.user.create({
+          data: {
+            name: args.input.name,
+            email: args.input.email,
+          },
+        }),
+    }),
+    login: t.field({
       args: {
-        name: stringArg(),
-        email: nonNull('String'),
+        email: t.arg.string({ required: true }),
       },
-      resolve: registResolver,
-    })
-    t.field('login', {
       type: 'String',
-      args: {
-        email: nonNull(stringArg()),
+      resolve: async (_, args, ctx) => {
+        const user = await prisma.user.findUnique({
+          where: {
+            email: args.email,
+          },
+        })
+        if (!user) {
+          throw new GraphQLError('Email does not exist!')
+        }
+        return generateToken(user.id)
       },
-      resolve: loginResolver,
-    })
-  },
+    }),
+  }),
 })

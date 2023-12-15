@@ -17,7 +17,7 @@ dotenv.config()
 import { PORT, serverAddress } from './constants'
 import type { Context } from './context'
 import { createContext } from './context'
-import schema from './schema'
+import { schema } from './schema'
 import { errorHandler } from './utils/errorHandler'
 
 const app = new Koa()

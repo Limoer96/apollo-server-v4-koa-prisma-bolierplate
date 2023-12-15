@@ -1,11 +1,19 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "./prisma-client"
+  output   = "./client"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator pothos {
+  provider     = "prisma-pothos-types"
+  // Match client output location from above
+  clientOutput = "./client"
+  output       = "./generated.d.ts"
+  prismaUtils  = true
 }
 
 model User {
