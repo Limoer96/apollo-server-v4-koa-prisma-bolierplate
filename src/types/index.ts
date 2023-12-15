@@ -1,5 +1,5 @@
+import type { Resolver, NormalizeArgs } from '@pothos/core'
 import type { GraphQLResolveInfo } from 'graphql'
-import type { FieldResolver } from 'nexus'
 
 import type { Context } from '../../src/context'
 
@@ -18,8 +18,10 @@ export type ResolverHandler<ReturnType = any, ArgsType = any> = (
 /**
  * query resolver by nexus
  */
-export type QueryResolver<FieldName extends string> = FieldResolver<
-  'Query',
+export type QueryResolver<FieldName extends string> = Resolver<
+  Parent,
+  NormalizeArgs<string[]>,
+  Context,
   FieldName
 >
 

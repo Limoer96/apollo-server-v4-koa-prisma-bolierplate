@@ -26,7 +26,7 @@ builder.queryType({
     allUsers: t.prismaField({
       type: [User],
       nullable: true,
-      resolve: (query, root, args) => prisma.user.findMany(),
+      resolve: () => prisma.user.findMany(),
     }),
     user: t.prismaField({
       type: User,

@@ -10,6 +10,8 @@ import client from 'prisma/prisma'
 
 import type PrismaTypes from '../prisma/generated'
 
+import type { Context } from './context'
+
 export const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes
   Scalars: {
@@ -26,11 +28,7 @@ export const builder = new SchemaBuilder<{
       Output: unknown
     }
   }
-  Context: {
-    user?: {
-      id: number
-    }
-  }
+  Context: Context
 }>({
   plugins: [
     PrismaPlugin,
