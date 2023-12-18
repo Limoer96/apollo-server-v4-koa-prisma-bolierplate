@@ -1,4 +1,4 @@
-# A Tmeplate Using GraphQL Server v4 & Prisma & Nexus Generator & Koa
+# A Tmeplate Using Apollo Server v4 & Prisma & Pothos Schema Builder & Koa
 
 This example shows how to implement a **GraphQL server & Restful API server with TypeScript** with the following stack:
 
@@ -7,7 +7,7 @@ This example shows how to implement a **GraphQL server & Restful API server with
 - [**@as-integrations/koa**](https://github.com/apollo-server-integrations/apollo-server-integration-koa): A TypeScript/JavaScript GraphQL middleware for @apollo/server
 - [**Koa Router**](https://github.com/koajs/router): Router middleware for Koa.
 - [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)
-- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation
+- [**Pothos GraphQL**](https://github.com/hayes/pothos): Pothos is a plugin based GraphQL schema builder for typescript.
 
 ## 1. Download example and install dependencies
 
@@ -44,9 +44,8 @@ Launch your GraphQL server with this command:
 pnpm run dev
 ```
 
-Navigate to [http://localhost:4000/graphql](http://localhost:4000) in your browser to explore the API of your GraphQL server in a [GraphQL Playground](https://github.com/prisma/graphql-playground).
-
-Navigate to [http://localhost:4000/user](http://localhost:4000) to visit the `/user` restful api.
+Navigate to [http://localhost:4000/graphql](http://localhost:4000/graphql) in your browser to explore the API of your GraphQL server.
+Navigate to [http://localhost:4000/user?id=xx](http://localhost:4000/user) to visit the `/user` restful api.
 
 ## Next
 

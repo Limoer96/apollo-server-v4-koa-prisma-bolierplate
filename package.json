@@ -77,5 +77,13 @@
   },
   "prisma": {
     "seed": "ts-node --transpile-only prisma/seed.ts"
-  }
+  },
+  "keywords": [
+    "Graphql",
+    "Apollo-Server",
+    "Prisma",
+    "Pothos",
+    "Koa",
+    "RESTful API"
+  ]
 }
