@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./client"
 }
 
 datasource db {
@@ -11,16 +10,17 @@ datasource db {
 generator pothos {
   provider     = "prisma-pothos-types"
   // Match client output location from above
-  clientOutput = "./client"
+  clientOutput = "@prisma/client"
   output       = "./generated.d.ts"
   prismaUtils  = true
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
+  id    Int      @id @default(autoincrement())
+  email String   @unique
   name  String?
   posts Post[]
+  role  UserRole
 }
 
 model Post {
@@ -33,4 +33,11 @@ model Post {
   viewCount Int      @default(0)
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
+}
+
+enum UserRole {
+  GUEST
+  DEVELOPER
+  TEST
+  MAINTAINER
 }

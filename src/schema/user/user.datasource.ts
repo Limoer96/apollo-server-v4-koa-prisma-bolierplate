@@ -1,14 +1,15 @@
+import type { UserRole } from '@prisma/client'
 import { GraphQLError } from 'graphql'
 
-import type { PrismaClient } from 'prisma/prisma'
+import prisma from 'prisma/prisma'
 
 import { generateToken } from '@/utils/token'
 
-export class UserService {
-  public static async getAllUsers(prisma: PrismaClient) {
+export class UserDataSource {
+  public static async getAllUsers() {
     return prisma.user.findMany()
   }
-  public static async getUser(prisma: PrismaClient, id: number) {
+  public static async getUser(id: number) {
     return prisma.user.findUnique({
       where: {
         id,
@@ -16,19 +17,20 @@ export class UserService {
     })
   }
   public static async regist(
-    prisma: PrismaClient,
     email: string,
+    role: UserRole,
     name?: string | null,
   ) {
     const user = await prisma.user.create({
       data: {
         email,
         name,
+        role,
       },
     })
-    return user.id
+    return user
   }
-  public static async login(prisma: PrismaClient, email: string) {
+  public static async login(email: string) {
     const user = await prisma.user.findUnique({
       where: {
         email,

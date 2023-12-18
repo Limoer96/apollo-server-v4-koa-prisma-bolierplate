@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import type Koa from 'koa'
 
-import type { DecodedPayload } from './utils/token'
+import { decodedToken, type DecodedPayload } from './utils/token'
 
 export interface Context {
   prisma: PrismaClient
@@ -16,8 +16,10 @@ export async function createContext({
 }: {
   ctx: Koa.ParameterizedContext
 }): Promise<Context> {
+  const decoded = decodedToken(ctx)
   return {
     prisma,
     req: ctx,
+    decoded,
   }
 }

@@ -25,6 +25,9 @@ dependencies:
   '@pothos/plugin-prisma-utils':
     specifier: ^0.14.0
     version: 0.14.0(@pothos/core@3.40.1)(@pothos/plugin-prisma@3.62.0)(@prisma/client@5.6.0)(graphql@16.6.0)
+  '@pothos/plugin-scope-auth':
+    specifier: ^3.20.0
+    version: 3.20.0(@pothos/core@3.40.1)(graphql@16.6.0)
   '@pothos/plugin-simple-objects':
     specifier: ^3.7.0
     version: 3.7.0(@pothos/core@3.40.1)(graphql@16.6.0)
@@ -961,6 +964,16 @@ packages:
       '@prisma/generator-helper': 5.7.0
       graphql: 16.6.0
       typescript: 4.9.5
+    dev: false
+
+  /@pothos/plugin-scope-auth@3.20.0(@pothos/core@3.40.1)(graphql@16.6.0):
+    resolution: {integrity: sha512-yaAWScp6ob5uG9Ob8YMTTga8DECANx5HW9q/bz4r66RifO/ZNEr1szXl6WpuyhqhGdasvTpzoYakVrYgs8J8wQ==}
+    peerDependencies:
+      '@pothos/core': '*'
+      graphql: '>=15.1.0'
+    dependencies:
+      '@pothos/core': 3.40.1(graphql@16.6.0)
+      graphql: 16.6.0
     dev: false
 
   /@pothos/plugin-simple-objects@3.7.0(@pothos/core@3.40.1)(graphql@16.6.0):

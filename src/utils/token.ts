@@ -14,29 +14,15 @@ export interface DecodedPayload {
  * @param requireAuth
  * @returns
  */
-function decodedToken(req: Koa.ParameterizedContext, requireAuth = true) {
+function decodedToken(req: Koa.ParameterizedContext) {
   const authorization = req.headers.authorization
   if (authorization) {
     try {
       const token = authorization.replace('Bearer ', '')
       const decoded = verify(token, SECRET_KEY) as unknown as DecodedPayload
       return decoded
-    } catch (error) {
-      throw new GraphQLError('Authentication expired', {
-        extensions: {
-          code: 'UNAUTHENTICATED',
-        },
-      })
-    }
+    } catch {}
   }
-  if (requireAuth) {
-    throw new GraphQLError('Authentication token required', {
-      extensions: {
-        code: 'UNAUTHENTICATED',
-      },
-    })
-  }
-  return null
 }
 
 /**
