@@ -55,7 +55,7 @@ const start = async () => {
   })
   console.log(`\
   🚀 Server ready at: ${serverAddress}/graphql
-  ⭐️ See sample queries: http://pris.ly/e/ts/graphql-nexus#using-the-graphql-api
+  ⭐️ See sample queries: https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql
   `)
 }
 
